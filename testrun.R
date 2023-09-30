@@ -144,5 +144,5 @@ AnnualReportsTYLERFORK <- function(symbol, foreign = FALSE, save_files = TRUE) {
   return(info.df)
 }
 
-info.df <- AnnualReportsTYLERFORK("KO")
+info.df <- AnnualReportsTYLERFORK("BRK-B")
 
