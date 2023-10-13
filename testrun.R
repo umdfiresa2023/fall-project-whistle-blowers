@@ -153,7 +153,7 @@ info.df <- AnnualReportsTYLERFORK("KO")
 dir.create("exceldata", showWarnings = FALSE)
 folder <- paste0("exceldata","/","data")
 download.file("https://ghgdata.epa.gov/ghgp/service/export?q=&tr=current&ds=E&ryr=2022&cyr=2022&lowE=-20000&highE=23000000&st=&fc=&mc=&rs=ALL&sc=0&is=11&et=&tl=&pn=undefined&ol=0&sl=0&bs=&g1=1&g2=1&g3=1&g4=1&g5=1&g6=0&g7=1&g8=1&g9=1&g10=1&g11=1&g12=1&s1=0&s2=0&s3=0&s4=0&s5=0&s6=0&s7=1&s8=0&s9=0&s10=0&s201=0&s202=0&s203=0&s204=0&s301=0&s302=0&s303=0&s304=0&s305=0&s306=0&s307=0&s401=0&s402=0&s403=0&s404=0&s405=0&s601=0&s602=0&s701=1&s702=1&s703=1&s704=1&s705=1&s706=1&s707=1&s708=1&s709=1&s710=1&s711=1&s801=0&s802=0&s803=0&s804=0&s805=0&s806=0&s807=0&s808=0&s809=0&s810=0&s901=0&s902=0&s903=0&s904=0&s905=0&s906=0&s907=0&s908=0&s909=0&s910=0&s911=0&sf=11001100&allReportingYears=yes&listExport=false", folder, mode = "wb")
-excel_file_path <- "exceldata/data"
+excel_file_path <- "excel_data/data"
 
 sheet_names <- excel_sheets(excel_file_path)
 combined_df <- data.frame()
@@ -177,6 +177,6 @@ your_dataframe <- combined_df %>%
   select(columns_to_select) %>%
   select("PARENT COMPANIES", everything())
 
-write.csv(your_dataframe, "flightdata.csv", row.names=F)
+write.csv(your_dataframe, "flightdata2.csv", row.names=F)
 
 
