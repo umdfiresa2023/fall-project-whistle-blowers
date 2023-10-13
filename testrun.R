@@ -7,7 +7,7 @@ install.packages("tidyverse")
 install.packages("httr")
 install.packages("XBRL")
 #install.packages("stringr")
-install("readxl")
+install.packages("readxl")
 library(readxl)
 
 
@@ -162,8 +162,8 @@ combined_df <- data.frame()
 # Define the number of rows to skip
 rows_to_skip <- 6  # Adjust to the number of rows you want to skip
 
-# Define the columns you want to select (by name or index)
-columns_to_select <- c("REPORTING YEAR","FACILITY NAME","GHGRP ID", "PARENT COMPANIES", "GHG QUANTITY (METRIC TONS CO2e)")  # Adjust with your column names
+# Define the columns you want to select (by name or index)  ,"FACILITY NAME","GHGRP ID",
+columns_to_select <- c("REPORTING YEAR", "PARENT COMPANIES", "GHG QUANTITY (METRIC TONS CO2e)")  # Adjust with your column names
 for (sheet in sheet_names) {
   sheet_data <- read_excel(excel_file_path, sheet = sheet, skip = rows_to_skip)
   combined_df <- bind_rows(combined_df, sheet_data)
@@ -175,8 +175,8 @@ View(combined_df)
 
 your_dataframe <- combined_df %>%
   select(columns_to_select) %>%
-  select("FACILITY NAME", everything())
+  select("PARENT COMPANIES", everything())
 
-
+write.csv(your_dataframe, "flightdata.csv", row.names=F)
 
 
