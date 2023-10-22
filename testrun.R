@@ -148,7 +148,7 @@ write.csv(your_dataframe, "flightdataTest.csv", row.names=F)
 
 #Filter to target companies
 
-search_terms <- c("Westlake", "Lyondell","Mosaic","Linde", "Air Products", "PPG Industries", "Exxon Mobil","Huntsman","Celanese", "Honeywell")
+search_terms <- c("Westlake", "Occidental Petroleum","Mosaic","Albemarle", "Air Products", "PPG Industries", "Exxon Mobil","Huntsman","Celanese", "Honeywell")
 
 filterframe <- your_dataframe %>%
   filter(sapply(search_terms, function(term) str_detect(`PARENT COMPANIES`, regex(term, ignore_case = TRUE))) %>% rowSums > 0) 
