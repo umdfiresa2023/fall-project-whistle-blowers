@@ -18,7 +18,7 @@ import { executablePath } from "puppeteer";
   const page = await browser.newPage();
 
   const url =
-    "https://www.sec.gov/ix?doc=/Archives/edgar/data/2969/000000296919000051/apd-10xkx30sep19.htm";
+    "https://www.sec.gov/Archives/edgar/data/1807901/000119312521102234/d139974d10ka.htm";
 
   await page.goto(url, { waitUntil: "domcontentloaded" });
 
