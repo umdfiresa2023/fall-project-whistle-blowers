@@ -11,38 +11,59 @@ library(dplyr)
 library(tidytext)
 library(SnowballC)
 
-# reading the text file 
-test_data <- readLines("2011.txt")
+# reading the text file , "/New foldder/2012.txt", "2013.txt", "2014.txt", "2015.txt","2016.txt", "2017.txt", "2018.txt", "2019.txt", "2020.txt",
+results_df <- data.frame(`REPORTING YEAR` = numeric(), `ESG_Score` = numeric())
+results_df  <- data.frame()
 
-
-
-df <- tibble(text = test_data)
-
-test_data_sentences <- df %>%
-  unnest_tokens(output = "sentence",
-                token = "sentences",
-                input = text) 
-
-#the total score of emotions
-total_score <- 0
-
-#for loop because words used separately as environment/environmental/environmentally
-for(term in c("profits")) {
- 
-  #considering the environment related sentences
-  env_sentences <- test_data_sentences[grepl(term, test_data_sentences$sentence), ]
+for (file in c("2011.txt", "2012.txt" , "2013.txt", "2014.txt", "2015.txt","2016.txt", "2017.txt", "2018.txt", "2019.txt", "2020.txt")){
+  test_data <- readLines(file)
   
-  # Further Tokenize the text by word
-  env_tokens <- env_sentences %>%
-    unnest_tokens(output = "word", token = "words", input = sentence) %>%
-    anti_join(stop_words)
+  df <- tibble(text = test_data)
   
-  afinnframe<-get_sentiments("afinn")
-  # Use afinn to find the overall sentiment score
-  affin_score <- env_tokens %>% 
-    inner_join(afinnframe, by = c("word" = "word")) %>%
-    summarise(sentiment = sum(value))
+  test_data_sentences <- df %>%
+    unnest_tokens(output = "sentence",
+                  token = "sentences",
+                  input = text) 
   
-  total_score = total_score + affin_score
+  #the total score of emotions
+  total_score <- 0
+  year <- as.numeric(sub("\\.txt$", "", file))
+  
+  
+  count <- 0
+  #for loop because words used separately as environment/environmental/environmentally
+  for(term in c("environment", "environmental", "environmentally")) {
+    
+    #considering the environment related sentences
+    env_sentences <- test_data_sentences[grepl(term, test_data_sentences$sentence), ]
+    
+    
+    for(i in env_sentences) { 
+      for (j in i){
+        count <- count + 1
+      }
+    }
+    # Further Tokenize the text by word
+    env_tokens <- env_sentences %>%
+      unnest_tokens(output = "word", token = "words", input = sentence) %>%
+      anti_join(stop_words)
+    
+    afinnframe<-get_sentiments("afinn")
+    # Use afinn to find the overall sentiment score
+    affin_score <- env_tokens %>% 
+      inner_join(afinnframe, by = c("word" = "word")) %>%
+      summarise(sentiment = sum(value))
+    
+    total_score = total_score + affin_score
+    print(total_score)
+    cat(count, ":count\n")
+  }
+  print("last score:")
+  print(total_score)
+  print("last count:")
+  print(count)
+  total_score = total_score / count
+  
+  results_df <- rbind(results_df, data.frame(`REPORTING YEAR` = year, `ESG_Score` = total_score))
 }
 

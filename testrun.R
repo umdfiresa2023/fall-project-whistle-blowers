@@ -4,7 +4,11 @@ install.packages("tidyverse")
 install.packages("httr")
 install.packages("XBRL")
 install.packages("readxl")
+install.packages("dplyr")
+install.packages("ggplot2")
 
+library(dplyr)
+library(ggplot2)
 library(readxl)
 library(finreportr)
 library(R.utils)
@@ -118,7 +122,7 @@ AnnualReportsTYLERFORK <- function(symbol, foreign = FALSE, save_files = TRUE) {
   return(info.df)
 }
 
-info.df <- AnnualReportsTYLERFORK("KO")
+info.df <- AnnualReportsTYLERFORK("APD")
 
 
 #Import FLIGHT data
@@ -167,3 +171,53 @@ filterframe <- filterframe %>%
   summarize(`GHG QUANTITY (METRIC TONS CO2e)` = sum(`GHG QUANTITY (METRIC TONS CO2e)`))
 
 write.csv(filterframe, "flightCompanies.csv")
+
+filterframe2 <- filterframe %>%
+  filter(`PARENT COMPANIES` == "PPG Industries")
+
+esg_df <- results_df
+
+colnames(esg_df)[colnames(esg_df) == "REPORTING.YEAR"] <- "REPORTING YEAR"
+colnames(esg_df)[colnames(esg_df) == "sentiment"] <- "ESG_Score"
+
+
+merge_df <- merge(filterframe2, esg_df, by.x = "REPORTING YEAR", by.y = "REPORTING YEAR", all.x = TRUE) %>%
+  filter(`REPORTING YEAR` %in% c(2011,2012,2013, 2014,2015,2016,2017,2018,2019,2020))
+
+my_plot <- ggplot(merge_df, aes(x = `REPORTING YEAR`)) +
+  # First y-axis: GHG QUANTITY
+  geom_line(aes(y = `GHG QUANTITY (METRIC TONS CO2e)`), color = "blue") +
+  geom_point(aes(y = `GHG QUANTITY (METRIC TONS CO2e)`), color = "blue") +
+  
+  geom_text(
+    aes(x = `REPORTING YEAR`, y = `GHG QUANTITY (METRIC TONS CO2e)`, 
+        label = paste("(", `REPORTING YEAR`, ",", `GHG QUANTITY (METRIC TONS CO2e)`, ")"),
+        angle = 50,
+        hjust = -.05,   
+        vjust = -.01
+        
+    ), size = 2 ) +
+  
+  labs(y = "GHG Quantity (Metric Tons CO2e)", x = "Year") +
+  
+  
+  #Second y-axis: ESG_Score
+  geom_line(aes(y = `ESG_Score` * 10000000), color = "red") +
+ 
+  labs(y = "ESG Index",  title = "GHG vs ESG Index") +
+  #scale_y_continuous(name = "GHG",  sec.axis = sec_axis(~., name="ESG Index")) +
+  
+  scale_y_continuous(
+    name = "GHG Quantity",
+    #breaks = c(0,100000,200000,300000),
+    #labels = scales::label_number(scale = 1),
+    sec.axis = sec_axis(~./10000000, name = "ESG Index")
+  ) +
+
+
+ 
+  scale_x_continuous(breaks = seq(min(merge_df$`REPORTING YEAR`), max(merge_df$`REPORTING YEAR`), by = 1)) 
+
+
+ggsave("my_plot.png", plot = my_plot, width = 12, height = 6, units = "in", dpi = 300)
+
