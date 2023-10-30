@@ -12,20 +12,17 @@ puppeteer.use(StealthPlugin());
 import { executablePath } from "puppeteer";
 
 const companyNames = {
-  // Albemarle: "ALB", //Error
-  // // Mosaic: "MOS",
-  // "3M": "MMM", //Error
-  // Westlake: "WLK", //Error
-  // "Air Products": "APD",
-  PPG: "PPG", //Done
-  // "Exxon Mobil": "XOM",
-  // Huntsman: "HUN",
-  // Celanese: "CE", 
-  // Honeywell: "HON",
+  Albemarle: "ALB",
+  Mosaic: "MOS",
+  "3M": "MMM",
+  Westlake: "WLK",
+  "Air Products": "APD",
+  PPG: "PPG",
+  "Exxon Mobil": "XOM",
+  Huntsman: "HUN",
+  Celanese: "CE", 
+  Honeywell: "HON",
 };
-
- // Set the maximum number of pages to scrape
-
 
 async function scrapeSECWebsite() {
   const browser = await puppeteer.launch({
@@ -145,7 +142,9 @@ async function scrapeTextAndSaveToFile(url, year, companyName) {
       return document.body.textContent;
     });
 
+    
     const sanitizedYear = sanitize(year);
+    // const strippedResult = textContent.replace(/(<([^>]+)>)/gi, '');
     const strippedResult = stripHtml(textContent.toLowerCase());
     const strippedString = strippedResult.result;
 
