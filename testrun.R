@@ -152,7 +152,7 @@ write.csv(your_dataframe, "flightdataTest.csv", row.names=F)
 
 #Filter to target companies
 
-search_terms <- c("Westlake", "Occidental Petroleum","Mosaic","Albemarle", "Air Products", "PPG Industries", "Exxon Mobil","Huntsman","Celanese", "Honeywell")
+search_terms <- c("DOW", "Westlake", "Occidental Petroleum","Mosaic","Albemarle", "Air Products", "PPG Industries", "Exxon Mobil","Huntsman","Celanese", "Honeywell")
 
 filterframe <- your_dataframe %>%
   filter(sapply(search_terms, function(term) str_detect(`PARENT COMPANIES`, regex(term, ignore_case = TRUE))) %>% rowSums > 0) 
@@ -214,8 +214,6 @@ my_plot <- ggplot(merge_df, aes(x = `REPORTING YEAR`)) +
     sec.axis = sec_axis(~./10000000, name = "ESG Index")
   ) +
 
-
- 
   scale_x_continuous(breaks = seq(min(merge_df$`REPORTING YEAR`), max(merge_df$`REPORTING YEAR`), by = 1)) 
 
 
