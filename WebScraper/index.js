@@ -9,7 +9,7 @@ puppeteer.use(StealthPlugin());
 const { executablePath } = require("puppeteer");
 
 const companyNames = {
-  DOW: "DOW",
+  PPG: "PPG",
   // Add more companies if needed
 };
 
