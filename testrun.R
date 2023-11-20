@@ -6,7 +6,9 @@ install.packages("XBRL")
 install.packages("readxl")
 install.packages("dplyr")
 install.packages("ggplot2")
+install.packages("quantmod")
 
+library(quantmod)
 library(dplyr)
 library(ggplot2)
 library(readxl)
@@ -152,7 +154,7 @@ write.csv(your_dataframe, "flightdataTest.csv", row.names=F)
 
 #Filter to target companies
 
-search_terms <- c("DOW", "Westlake", "Occidental Petroleum","Mosaic","Albemarle", "Air Products", "PPG Industries", "Exxon Mobil","Huntsman","Celanese", "Honeywell")
+search_terms <- c("DOW", "Westlake", "Occidental Petroleum","Mosaic","Albemarle", "Air Products", "PPG Industries", "Exxon","Huntsman","Celanese", "Honeywell")
 
 filterframe <- your_dataframe %>%
   filter(sapply(search_terms, function(term) str_detect(`PARENT COMPANIES`, regex(term, ignore_case = TRUE))) %>% rowSums > 0) 
@@ -172,8 +174,8 @@ filterframe <- filterframe %>%
 
 write.csv(filterframe, "flightCompanies.csv")
 
-filterframe2 <- filterframe %>%
-  filter(`PARENT COMPANIES` == "PPG Industries")
+filterframe2 <- filterframe #%>%
+  #filter(`PARENT COMPANIES` == "PPG Industries")
 
 esg_df <- results_df
 
