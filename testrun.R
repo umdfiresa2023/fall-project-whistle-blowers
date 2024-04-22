@@ -124,7 +124,7 @@ AnnualReportsTYLERFORK <- function(symbol, foreign = FALSE, save_files = TRUE) {
   return(info.df)
 }
 
-info.df <- AnnualReportsTYLERFORK("APD")
+info.df <- AnnualReportsTYLERFORK("AAPL")
 
 
 #Import FLIGHT data
@@ -148,13 +148,13 @@ View(combined_df)
 
 your_dataframe <- combined_df %>%
   select(columns_to_select) %>%
-  select("PARENT COMPANIES", everything()) %>%
+  select("PARENT COMPANIES", everything())
   
 write.csv(your_dataframe, "flightdataTest.csv", row.names=F)
 
 #Filter to target companies
 
-search_terms <- c("DOW", "Westlake", "Occidental Petroleum","Mosaic","Albemarle", "Air Products", "PPG Industries", "Exxon","Huntsman","Celanese", "Honeywell")
+search_terms <- c("Westlake", "Albemarle","PPG Industries", "Exxon","Huntsman","Celanese", "Honeywell", "3M")
 
 filterframe <- your_dataframe %>%
   filter(sapply(search_terms, function(term) str_detect(`PARENT COMPANIES`, regex(term, ignore_case = TRUE))) %>% rowSums > 0) 
@@ -185,6 +185,10 @@ colnames(esg_df)[colnames(esg_df) == "sentiment"] <- "ESG_Score"
 
 merge_df <- merge(filterframe2, esg_df, by.x = "REPORTING YEAR", by.y = "REPORTING YEAR", all.x = TRUE) %>%
   filter(`REPORTING YEAR` %in% c(2011,2012,2013, 2014,2015,2016,2017,2018,2019,2020))
+
+
+
+
 
 my_plot <- ggplot(merge_df, aes(x = `REPORTING YEAR`)) +
   # First y-axis: GHG QUANTITY
