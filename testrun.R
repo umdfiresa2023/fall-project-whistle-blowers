@@ -177,6 +177,7 @@ write.csv(filterframe, "flightCompanies.csv")
 filterframe2 <- filterframe #%>%
   #filter(`PARENT COMPANIES` == "PPG Industries")
 
+###############################
 esg_df <- results_df
 
 colnames(esg_df)[colnames(esg_df) == "REPORTING.YEAR"] <- "REPORTING YEAR"
