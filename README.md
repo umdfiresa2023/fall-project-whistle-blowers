@@ -1,10 +1,10 @@
 # Uncovering Greenwashing: A Review of Large Public Companies
+
 Anant Agrawal, Tyler Jones, Ishaan Kalra
 
 # <u>**Research Question**</u>
 
-Do changes in corporate environmental action statements correlate with
-their GHG emissions?
+Do changes in corporate environmental action statements correlate with their GHG emissions?
 
 ![](1.png)
 
@@ -12,10 +12,7 @@ their GHG emissions?
 
 ## A. Treatment variable:
 
-Our treatment variable is the environmental sentiment score from a
-companies annual report. To get this variable we need to first get all
-the annual reports from <https://www.sec.gov/edgar/search/>, the SEC
-compiles all submitted data for all public companies into this database.
+Our treatment variable is the environmental sentiment score from a companies annual report. To get this variable we need to first get all the annual reports from <https://www.sec.gov/edgar/search/>, the SEC compiles all submitted data for all public companies into this database.
 
 ### Querying for 10K Filings
 
@@ -237,15 +234,11 @@ scrapeSECWebsite();
 
 ## B. Outcome variable:
 
-Our outcome variable is greenhouse gas emissions from each target
-chemical company.
+Our outcome variable is greenhouse gas emissions from each target chemical company.
 
-This data is obtained from
-“https://ghgdata.epa.gov/ghgp/main.do?site_preference=normal” which
-reports greenhouse gases for every facility in the U.S for each year.
+This data is obtained from “<https://ghgdata.epa.gov/ghgp/main.do?site_preference=normal>” which reports greenhouse gases for every facility in the U.S for each year.
 
-We transformed yearly facility emissions into total company emissions,
-as shown in the R language code below.
+We transformed yearly facility emissions into total company emissions, as shown in the R language code below.
 
 ### Querying for FLIGHT DATA 📉
 
@@ -319,17 +312,11 @@ filterframe <- filterframe %>%
 
 # <u>**Data Wrangling**</u>
 
-1.  An existing NLP model, EnvironmentalBERT-action (Schimanski et
-    al. 2024) is used to classify sentences as environmental action from
-    each annual report.
+1.  An existing NLP model, [EnvironmentalBERT-action](https://colab.research.google.com/drive/185I3yNyg4PLpIYGJzRDNcHNla3998H83?usp=sharing) (Schimanski et al. 2024) written in Python is used to classify sentences as environmental action from each annual report
 
-2.  The base NLP model output looks like {‘label’: ‘none’, ‘score’:
-    0.9966304898262024}, with the label being ‘none’ or ‘environmental’
-    and ‘score’ being the model’s confidence
+2.  The base NLP model output looks like {‘label’: ‘none’, ‘score’: 0.9966304898262024}, with the label being ‘none’ or ‘environmental’ and ‘score’ being the model’s confidence
 
-3.  After a sentence is classified as ‘environmental’ it is then run
-    through the action model to classify each environmental sentence as
-    ‘action’ or ‘none’
+3.  After a sentence is classified as ‘environmental’ it is then run through the action model to classify each environmental sentence as ‘action’ or ‘none’
 
 ``` python
 # import standard libraries
@@ -412,15 +399,11 @@ for i in range(len(reportsbyyear)):
 
 Some example of environmental action sentences in an annual report is:
 
-“PPG has, and will continue to, annually report our global GHG emissions
-to the voluntary Carbon Disclosure project.”
+“PPG has, and will continue to, annually report our global GHG emissions to the voluntary Carbon Disclosure project.”
 
-“While PPG fell short of its goal of reducing GHG emissions by 10
-percent, the Company continues to work toward this long-term goal.”
+“While PPG fell short of its goal of reducing GHG emissions by 10 percent, the Company continues to work toward this long-term goal.”
 
-“At Barberton, PPG has completed a Facility Investigation and Corrective
-Measure Study under USEPA’s Resource Conservation and Recycling Act
-Corrective Action Program.”
+“At Barberton, PPG has completed a Facility Investigation and Corrective Measure Study under USEPA’s Resource Conservation and Recycling Act Corrective Action Program.”
 
 # <u>**Cleaning Data**</u>
 
@@ -525,17 +508,9 @@ dfFINAL6 <- dfFINAL3 %>%
 
 # <u>**Preliminary Results**</u>
 
-Upon consolidating all the data, we can uncover the subtle nuances in
-how a company, has changed over the years in terms of its sentiment
-towards the environment. This provides a window into the company’s
-commitment to sustainable practices by comparing changes in
-environmental action claim prevalence to emissions adjusted for revenue
-over the years.
+Upon consolidating all the data, we can uncover the subtle nuances in how a company, has changed over the years in terms of its sentiment towards the environment. This provides a window into the company’s commitment to sustainable practices by comparing changes in environmental action claim prevalence to emissions adjusted for revenue over the years.
 
-The provided code creates a visual analysis for each company, comparing
-greenhouse gas (GHG) emissions per revenue with the company’s
-environmental action ratio. This approach offers a nuanced view of each
-company’s environmental impact and sustainability commitment.
+The provided code creates a visual analysis for each company, comparing greenhouse gas (GHG) emissions per revenue with the company’s environmental action ratio. This approach offers a nuanced view of each company’s environmental impact and sustainability commitment.
 
 ``` r
 #Create a line plot of Action ratio vs GHG/Revenue per year
@@ -565,13 +540,4 @@ my_plot_REVscatter <- ggplot(dfFINAL6, aes(x = Ratio,y = `GHGadjusted`)) +
 
 ![![](my_plot_REVscatter.png)](my_plot_REV2%20.png)
 
-There is no direct correlation between GHG/revenue and environmental
-action ratio that can be observed in our data. A regression with a year
-trend and company fixed effects, showed a weak positive correlation
-between GHG/revenue and environmental action ratio. Given the weak
-correlation there is no conclusive evidence given the data that we have.
-However, this research question is important to policymakers,
-shareholders, and the general public because the answer would inform
-them which companies deserve praise for their efforts in lowering their
-negative impacts and which companies are capitalizing on the movement
-without doing anything
+There is no direct correlation between GHG/revenue and environmental action ratio that can be observed in our data. A regression with a year trend and company fixed effects, showed a weak positive correlation between GHG/revenue and environmental action ratio. Given the weak correlation there is no conclusive evidence given the data that we have. However, this research question is important to policymakers, shareholders, and the general public because the answer would inform them which companies deserve praise for their efforts in lowering their negative impacts and which companies are capitalizing on the movement without doing anything

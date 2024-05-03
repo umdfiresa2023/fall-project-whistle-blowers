@@ -320,7 +320,7 @@ filterframe <- filterframe %>%
 
 # [**Data Wrangling**]{.underline}
 
-1.  An existing NLP model, EnvironmentalBERT-action (Schimanski et al. 2024) is used to classify sentences as environmental action from each annual report.
+1.  An existing NLP model, [EnvironmentalBERT-action](https://colab.research.google.com/drive/185I3yNyg4PLpIYGJzRDNcHNla3998H83?usp=sharing) (Schimanski et al. 2024) written in Python is used to classify sentences as environmental action from each annual report
 
 2.  The base NLP model output looks like {'label': 'none', 'score': 0.9966304898262024}, with the label being 'none' or 'environmental' and 'score' being the model's confidence
 
