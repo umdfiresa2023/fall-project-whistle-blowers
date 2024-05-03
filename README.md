@@ -1,10 +1,10 @@
 # Uncovering Greenwashing: A Review of Large Public Companies
-
 Anant Agrawal, Tyler Jones, Ishaan Kalra
 
 # <u>**Research Question**</u>
 
-Do changes in corporate environmental action statements correlate with their GHG emissions?
+Do changes in corporate environmental action statements correlate with
+their GHG emissions?
 
 ![](1.png)
 
@@ -12,9 +12,13 @@ Do changes in corporate environmental action statements correlate with their GHG
 
 ## A. Treatment variable:
 
-Our treatment variable is the environmental sentiment score from a companies annual report. To get this variable we need to first get all the annual reports from <https://www.sec.gov/edgar/search/>, the SEC compiles all submitted data for all public companies into this database.
+Our treatment variable is the environmental sentiment score from a
+companies annual report. To get this variable we need to first get all
+the annual reports from <https://www.sec.gov/edgar/search/>, the SEC
+compiles all submitted data for all public companies into this database.
 
-We use JavaScript to scrape EDGAR and retrieve the annual reports for each company.
+We use JavaScript to scrape EDGAR and retrieve the annual reports for
+each company.
 
 ### Querying for 10K Filings
 
@@ -24,75 +28,95 @@ We use JavaScript to scrape EDGAR and retrieve the annual reports for each compa
 
 ### Description
 
-This function scrapes financial documents links from the SEC website for specified companies.
+This function scrapes financial documents links from the SEC website for
+specified companies.
 
 #### Steps
 
-1.  **Setup Puppeteer with StealthPlugin**: Initializes Puppeteer in headless mode with a stealth plugin to avoid detection.
+1.  **Setup Puppeteer with StealthPlugin**: Initializes Puppeteer in
+    headless mode with a stealth plugin to avoid detection.
 
-2.  **Loop through Companies**: Iterates over a dictionary of company names and their corresponding entity names.
+2.  **Loop through Companies**: Iterates over a dictionary of company
+    names and their corresponding entity names.
 
-3.  **Build URL & Open New Page**: Constructs the URL for each company and opens a new page.
+3.  **Build URL & Open New Page**: Constructs the URL for each company
+    and opens a new page.
 
-4.  **Page Navigation & Data Extraction**: Navigates to the URL, waits for content, and extracts relevant links from the table.
+4.  **Page Navigation & Data Extraction**: Navigates to the URL, waits
+    for content, and extracts relevant links from the table.
 
-    -   **Pagination Handling**: Loops through pages to get more links if available.
+    - **Pagination Handling**: Loops through pages to get more links if
+      available.
 
-5.  **Filter & Process Links**: Processes each link, scraping and saving the text content.
+5.  **Filter & Process Links**: Processes each link, scraping and saving
+    the text content.
 
-6.  **Close Browser**: Closes the Puppeteer browser instance after processing all companies.
+6.  **Close Browser**: Closes the Puppeteer browser instance after
+    processing all companies.
 
 #### Additional Function: **`scrapeTextAndSaveToFile()`**
 
--   **Purpose**: Scrapes text content from a given URL and saves it to a file.
+- **Purpose**: Scrapes text content from a given URL and saves it to a
+  file.
 
--   **Operations**: Opens the URL, extracts text, sanitizes it, finds fiscal year information, and saves to a file.
+- **Operations**: Opens the URL, extracts text, sanitizes it, finds
+  fiscal year information, and saves to a file.
 
 #### Dependencies
 
--   **`fs`**: For file operations.
+- **`fs`**: For file operations.
 
--   **`sanitize-filename`**: To sanitize file names.
+- **`sanitize-filename`**: To sanitize file names.
 
--   **`puppeteer-extra`** and **`puppeteer-extra-plugin-stealth`**: For enhanced browser automation.
+- **`puppeteer-extra`** and **`puppeteer-extra-plugin-stealth`**: For
+  enhanced browser automation.
 
--   **`string-strip-html`**: To strip HTML from scraped text.
+- **`string-strip-html`**: To strip HTML from scraped text.
 
 ### B. **Explanation of `scrapeRevenueWebsite()` Function**
 
 #### Description
 
-This function scrapes revenue data from a specified website for a list of companies. The data is formatted into CSV and saved to a file.
+This function scrapes revenue data from a specified website for a list
+of companies. The data is formatted into CSV and saved to a file.
 
 #### Steps
 
-1.  **Setup Puppeteer**: Initializes Puppeteer with a non-headless browser and a custom executable path.
+1.  **Setup Puppeteer**: Initializes Puppeteer with a non-headless
+    browser and a custom executable path.
 
-2.  **Initialize CSV Data**: Sets up a CSV string header with “Company Name, Year, Revenue”.
+2.  **Initialize CSV Data**: Sets up a CSV string header with “Company
+    Name, Year, Revenue”.
 
 3.  **Loop through Companies**: Iterates over a list of company names.
 
-4.  **Modify Company Name & Build URL**: Converts each company name to a URL-friendly format.
+4.  **Modify Company Name & Build URL**: Converts each company name to a
+    URL-friendly format.
 
 5.  **Open New Page**: Opens a new browser page for each company URL.
 
-6.  **Page Navigation & Wait**: Navigates to the URL and waits for content to load.
+6.  **Page Navigation & Wait**: Navigates to the URL and waits for
+    content to load.
 
-7.  **Data Extraction**: Executes a script in the page context to scrape table data for revenue.
+7.  **Data Extraction**: Executes a script in the page context to scrape
+    table data for revenue.
 
-    -   **Extract Years and Revenue**: Grabs revenue data for years 2011-2021, converting billions to numeric values.
+    - **Extract Years and Revenue**: Grabs revenue data for years
+      2011-2021, converting billions to numeric values.
 
-8.  **Format & Add to CSV**: Formats the data per company and appends to the CSV string.
+8.  **Format & Add to CSV**: Formats the data per company and appends to
+    the CSV string.
 
 9.  **Close Browser**: Closes the Puppeteer browser instance.
 
-10. **Save to File**: Writes the CSV data to a file named “company_revenue_data.csv”.
+10. **Save to File**: Writes the CSV data to a file named
+    “company_revenue_data.csv”.
 
 #### Dependencies
 
--   **`fs`**: File System module for file operations.
+- **`fs`**: File System module for file operations.
 
--   **`puppeteer`**: For browser automation.
+- **`puppeteer`**: For browser automation.
 
 ### C. Scraping Code
 
@@ -384,11 +408,15 @@ scrapeRevenueWebsite();
 
 ## B. Outcome variable:
 
-Our outcome variable is greenhouse gas emissions from each target chemical company.
+Our outcome variable is greenhouse gas emissions from each target
+chemical company.
 
-This data is obtained from “<https://ghgdata.epa.gov/ghgp/main.do?site_preference=normal>” which reports greenhouse gases for every facility in the U.S for each year.
+This data is obtained from
+“https://ghgdata.epa.gov/ghgp/main.do?site_preference=normal” which
+reports greenhouse gases for every facility in the U.S for each year.
 
-We transformed yearly facility emissions into total company emissions, as shown in the R code below.
+We transformed yearly facility emissions into total company emissions,
+as shown in the R code below.
 
 ### Querying for FLIGHT DATA 📉
 
@@ -462,11 +490,18 @@ filterframe <- filterframe %>%
 
 # <u>**Data Wrangling**</u>
 
-1.  An existing NLP model, [EnvironmentalBERT-action](https://colab.research.google.com/drive/185I3yNyg4PLpIYGJzRDNcHNla3998H83?usp=sharing) (Schimanski et al. 2024) written in Python is used to classify sentences as environmental action from each annual report
+1.  An existing NLP model,
+    [EnvironmentalBERT-action](https://colab.research.google.com/drive/185I3yNyg4PLpIYGJzRDNcHNla3998H83?usp=sharing)
+    (Schimanski et al. 2024) written in Python is used to classify
+    sentences as environmental action from each annual report
 
-2.  The base NLP model output looks like {‘label’: ‘none’, ‘score’: 0.9966304898262024}, with the label being ‘none’ or ‘environmental’ and ‘score’ being the model’s confidence
+2.  The base NLP model output looks like {‘label’: ‘none’, ‘score’:
+    0.9966304898262024}, with the label being ‘none’ or ‘environmental’
+    and ‘score’ being the model’s confidence
 
-3.  After a sentence is classified as ‘environmental’ it is then run through the action model to classify each environmental sentence as ‘action’ or ‘none’
+3.  After a sentence is classified as ‘environmental’ it is then run
+    through the action model to classify each environmental sentence as
+    ‘action’ or ‘none’
 
 ``` python
 # import standard libraries
@@ -549,15 +584,20 @@ for i in range(len(reportsbyyear)):
 
 Some examples of environmental action sentences in an annual report is:
 
-“PPG has, and will continue to, annually report our global GHG emissions to the voluntary Carbon Disclosure project.”
+“PPG has, and will continue to, annually report our global GHG emissions
+to the voluntary Carbon Disclosure project.”
 
-“While PPG fell short of its goal of reducing GHG emissions by 10 percent, the Company continues to work toward this long-term goal.”
+“While PPG fell short of its goal of reducing GHG emissions by 10
+percent, the Company continues to work toward this long-term goal.”
 
-“At Barberton, PPG has completed a Facility Investigation and Corrective Measure Study under USEPA’s Resource Conservation and Recycling Act Corrective Action Program.”
+“At Barberton, PPG has completed a Facility Investigation and Corrective
+Measure Study under USEPA’s Resource Conservation and Recycling Act
+Corrective Action Program.”
 
 # <u>**Cleaning Data**</u>
 
-Once the classified data is exported out of the NLP model, we import it back into an R environment to clean and combine with the other data.
+Once the classified data is exported out of the NLP model, we import it
+back into an R environment to clean and combine with the other data.
 
 ``` r
 #Create a data frame with the total sentence count per company per year
@@ -660,9 +700,17 @@ dfFINAL6 <- dfFINAL3 %>%
 
 # <u>**Preliminary Results**</u>
 
-Upon consolidating all the data, we can uncover the subtle nuances in how a company, has changed over the years in terms of its sentiment towards the environment. This provides a window into the company’s commitment to sustainable practices by comparing changes in environmental action claim prevalence to emissions adjusted for revenue over the years.
+Upon consolidating all the data, we can uncover the subtle nuances in
+how a company, has changed over the years in terms of its sentiment
+towards the environment. This provides a window into the company’s
+commitment to sustainable practices by comparing changes in
+environmental action claim prevalence to emissions adjusted for revenue
+over the years.
 
-The provided code creates a visual analysis for each company, comparing greenhouse gas (GHG) emissions per revenue with the company’s environmental action ratio. This approach offers a nuanced view of each company’s environmental impact and sustainability commitment.
+The provided code creates a visual analysis for each company, comparing
+greenhouse gas (GHG) emissions per revenue with the company’s
+environmental action ratio. This approach offers a nuanced view of each
+company’s environmental impact and sustainability commitment.
 
 ``` r
 #Create a line plot of Action ratio vs GHG/Revenue per year
@@ -690,6 +738,20 @@ my_plot_REVscatter <- ggplot(dfFINAL6, aes(x = Ratio,y = `GHGadjusted`)) +
   theme_bw(base_size=28)
 ```
 
-![![](my_plot_REVscatter.png)](my_plot_REV2%20.png)
+![Figure 1: GHG/Revenue and Environmental Action Ratio Time Series for
+Each Company](my_plot_REV2%20.png)
 
-There is no direct correlation between GHG/revenue and environmental action ratio that can be observed in our data. A regression with a year trend and company fixed effects, showed a weak positive correlation between GHG/revenue and environmental action ratio. Given the weak correlation there is no conclusive evidence given the data that we have. However, this research question is important to policymakers, shareholders, and the general public because the answer would inform them which companies deserve praise for their efforts in lowering their negative impacts and which companies are capitalizing on the movement without doing anything
+![](my_plot_REVscatter.png)
+
+Figure 2: GHG/Revenue vs. Environmental Action Ratio for All Companies
+
+There is no direct correlation between GHG/revenue and environmental
+action ratio that can be observed in our data. A regression with a year
+trend and company fixed effects, showed a weak positive correlation
+between GHG/revenue and environmental action ratio. Given the weak
+correlation there is no conclusive evidence given the data that we have.
+However, this research question is important to policymakers,
+shareholders, and the general public because the answer would inform
+them which companies deserve praise for their efforts in lowering their
+negative impacts and which companies are capitalizing on the movement
+without doing anything

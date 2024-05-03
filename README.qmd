@@ -717,6 +717,10 @@ my_plot_REVscatter <- ggplot(dfFINAL6, aes(x = Ratio,y = `GHGadjusted`)) +
   theme_bw(base_size=28)
 ```
 
-![![](my_plot_REVscatter.png)](my_plot_REV2%20.png)
+![Figure 1: GHG/Revenue and Environmental Action Ratio Time Series for Each Company](my_plot_REV2%20.png)
+
+![](my_plot_REVscatter.png)
+
+Figure 2: GHG/Revenue vs. Environmental Action Ratio for All Companies
 
 There is no direct correlation between GHG/revenue and environmental action ratio that can be observed in our data. A regression with a year trend and company fixed effects, showed a weak positive correlation between GHG/revenue and environmental action ratio. Given the weak correlation there is no conclusive evidence given the data that we have. However, this research question is important to policymakers, shareholders, and the general public because the answer would inform them which companies deserve praise for their efforts in lowering their negative impacts and which companies are capitalizing on the movement without doing anything
